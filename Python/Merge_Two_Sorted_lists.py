@@ -36,33 +36,42 @@ class ListNode(object):
 # If less than, add to front of the list, new head
 # If it's greater then add to back of the list
 def mergeTwoLists(list1, list2):
-    head = ListNode(list1[0])
+    head = list1
     runner = head
-    for i in range(1,len(list1)):
-        runner.next = ListNode(list1[i])
-        runner = runner.next
-    
-    runner = head 
-    for num in list2:
-        newNode = ListNode(num)
-        while(True):
-            if (runner.val == newNode.val):
-                newNode.next = runner.next
-                runner.next = newNode
-                runner = runner.next
-                break
-            elif (runner.val < newNode.val):
-                if (runner.next == None):
-                    runner.next = newNode
-
-                    break
-                else:
-                    runner = runner.next
-                    continue
+    runner2 = list2
+    i = 1
+    while(runner2):
+        print(i, runner.val, runner2.val, head)
+        i += 1
+        if (runner.val == runner2.val):
+            temp = runner2.next
+            runner2.next = runner.next
+            runner.next = runner2
+            runner = runner.next
+            runner2 = temp
+            continue
+        elif (runner.val < runner2.val):
+            if (runner.next == None):
+                runner.next = runner2
+                runner2 = runner2.next
+                continue
+            elif(runner.next.val >= runner2.val):
+                temp = runner2.next
+                runner2.next = runner.next
+                runner.next = runner2
+                runner2 = temp
+                continue
             else:
-                newNode.next = runner.next
-                runner.next = newNode
-                break
+                runner = runner.next
+                continue
+        else:
+            temp = runner2.next
+            runner2.next = runner
+            if (runner2.val < head.val ):
+                head = runner2
+                runner = head
+            runner2 = temp
+            
     return head
 
 
@@ -75,6 +84,6 @@ def mergeTwoLists(list1, list2):
 
 test = mergeTwoLists([1,2,4], [1,3,4])
 runner = test
-while (test.next):
+while (runner):
     print(runner.val)
     runner = runner.next
