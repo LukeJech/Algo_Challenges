@@ -24,66 +24,29 @@
 # Example 3:
 
 # Input: list1 = [], list2 = [0]
-# Output: [0]
-class ListNode(object):
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+# Output: [0]class ListNode(object):
+def __init__(self, val=0, next=None):
+    self.val = val
+    self.next = next
 
+class Solution(object):
+    def mergeTwoLists(self, list1, list2):
+        dummy = ListNode()  # Create a dummy node to simplify list construction
+        current = dummy  # Pointer to the current node in the merged list
 
-# Start with the first value as the head
-# Check next in the list if it's less than or greater than
-# If less than, add to front of the list, new head
-# If it's greater then add to back of the list
-def mergeTwoLists(list1, list2):
-    head = list1
-    runner = head
-    runner2 = list2
-    i = 1
-    while(runner2):
-        print(i, runner.val, runner2.val, head)
-        i += 1
-        if (runner.val == runner2.val):
-            temp = runner2.next
-            runner2.next = runner.next
-            runner.next = runner2
-            runner = runner.next
-            runner2 = temp
-            continue
-        elif (runner.val < runner2.val):
-            if (runner.next == None):
-                runner.next = runner2
-                runner2 = runner2.next
-                continue
-            elif(runner.next.val >= runner2.val):
-                temp = runner2.next
-                runner2.next = runner.next
-                runner.next = runner2
-                runner2 = temp
-                continue
+        while list1 and list2:
+            if list1.val <= list2.val:
+                current.next = list1
+                list1 = list1.next
             else:
-                runner = runner.next
-                continue
-        else:
-            temp = runner2.next
-            runner2.next = runner
-            if (runner2.val < head.val ):
-                head = runner2
-                runner = head
-            runner2 = temp
-            
-    return head
+                current.next = list2
+                list2 = list2.next
+            current = current.next
 
+        # Attach any remaining nodes from either list
+        if list1:
+            current.next = list1
+        elif list2:
+            current.next = list2
 
-
-
-
-
-
-
-
-test = mergeTwoLists([1,2,4], [1,3,4])
-runner = test
-while (runner):
-    print(runner.val)
-    runner = runner.next
+        return dummy.next 
