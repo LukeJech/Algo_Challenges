@@ -36,35 +36,34 @@
 // M	1000
 
 class RomanNumerals {
+
+
     static roman_values = {
-        M:1000,
-        D:500,
-        C:100,
-        L:50,
-        X:10,
-        V:5,
-        IV:4,
-        I:1,
+        'M':1000,
+        'CM': 900,
+        "D":500,
+        "CD": 400,
+        "C":100,
+        "XC": 90,
+        "L":50,
+        "XL": 40,
+        "X":10,
+        "IX": 9,
+        "V":5,
+        "IV":4,
+        "I":1,
         
     }
     static toRoman(num) {
         // start with a new string
         let roman_num = ''
         // cast num as string loop through each digit 
-        
         num = String(num)
-        for(let i = num.length - 1; i >= 0; i--) {
-            if(num[i] == 0) {continue}
-            if(i == 0) {
-                roman_num = 'M'.repeat(num[i]) + roman_num
-            } else if (i == 1) {
-                if(num[i] == 9) {
-                    roman_num = 'CM'+ roman_num
-                }
-            } else if (i == 2) {
-                if(num[i] == 9) {
-                    roman_num = 'XC'+ roman_num
-                }
+
+        for(let key in this.roman_values){
+            while(num >= this.roman_values[key]){
+                roman_num += key
+                num -= this.roman_values[key]
             }
         }
 
@@ -73,8 +72,20 @@ class RomanNumerals {
     }
   
     static fromRoman(str) {
-      return 4;
+        let num = 0
+        while(str){
+            let first_two_numerals = str[0] + str[1]
+            console.log(first_two_numerals)
+            if(this.roman_values.hasOwnProperty(first_two_numerals)) {
+                num += this.roman_values[first_two_numerals]
+                str = str.slice(2)
+            } else {
+                num += this.roman_values[str[0]]
+                str = str.slice(1)
+            }
+        }
+      return num;
     }
   }
 
-    console.log(RomanNumerals.toRoman(1990))
+    console.log(RomanNumerals.fromRoman('MMVIII'))
